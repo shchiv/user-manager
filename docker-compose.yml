@@ -1,0 +1,27 @@
+version: '2.1'
+services:
+  app:
+    build: .
+    links:
+      - db
+    ports:
+    - "9999:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: mysql:5.7
+    ports:
+    - "3306"
+    environment:
+      MYSQL_USER: gotest
+      MYSQL_PASSWORD: gotest
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+    healthcheck:
+          test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+          interval: 20s
+          timeout: 20s
+          retries: 5
+
+
