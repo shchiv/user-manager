@@ -6,6 +6,7 @@ import (
 	"github.com/mikespook/gorbac"
 	"github.com/users-manager/src/constants"
 	"github.com/users-manager/src/models"
+	"github.com/users-manager/src/permissions"
 	"github.com/users-manager/src/router"
 	"log"
 )
@@ -34,31 +35,31 @@ func createAccessControlRules(rbac *gorbac.RBAC) error {
 	adminRole := gorbac.NewStdRole(constants.AdminRole)
 	userRole := gorbac.NewStdRole(constants.UserRole)
 
-	if err := adminRole.Assign(createAllPermissions); err != nil {
+	if err := adminRole.Assign(permissions.CreateAll); err != nil {
 		return err
 	}
 
-	if err := adminRole.Assign(createUserPermissions); err != nil {
+	if err := adminRole.Assign(permissions.CreateUser); err != nil {
 		return err
 	}
 
-	if err := adminRole.Assign(readAllPermissions); err != nil {
+	if err := adminRole.Assign(permissions.ReadAll); err != nil {
 		return err
 	}
 
-	if err := adminRole.Assign(readUserPermissions); err != nil {
+	if err := adminRole.Assign(permissions.ReadUser); err != nil {
 		return err
 	}
 
-	if err := adminRole.Assign(deletePermissions); err != nil {
+	if err := adminRole.Assign(permissions.Delete); err != nil {
 		return err
 	}
 
-	if err := userRole.Assign(createUserPermissions); err != nil {
+	if err := userRole.Assign(permissions.CreateUser); err != nil {
 		return err
 	}
 
-	if err := userRole.Assign(readUserPermissions); err != nil {
+	if err := userRole.Assign(permissions.ReadUser); err != nil {
 		return err
 	}
 
