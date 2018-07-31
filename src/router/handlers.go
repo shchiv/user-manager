@@ -4,13 +4,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/users-manager/src/models"
 	"log"
+	"net/http"
 )
 
 func getAllUsersHandler(c *gin.Context) {
 	userName := c.Request.Header.Get(authHeader)
 
 	if userName == "" {
-		//TODO handle empty user
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized ",
+		})
 		return
 	}
 
@@ -18,7 +21,9 @@ func getAllUsersHandler(c *gin.Context) {
 	dbManager.Where(models.User{Name: userName}).First(user)
 
 	if user == nil {
-		//TODO handle user is absent
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized ",
+		})
 		return
 	}
 
